@@ -39,6 +39,11 @@ impl MacAddr {
         Default::default()
     }
 
+    /// Size in bytes of `MacAddr` instance
+    pub const fn size() -> usize {
+        6
+    }
+
     /// Construct a broadcast `MacAddr` instance.
     pub fn broadcast() -> MacAddr {
         [0xff; ETHER_ADDR_LEN].into()

@@ -1049,15 +1049,6 @@ fn handle_vec_primitive(
                                  ops = op_strings,
                                  size = size / 8);
         }
-        let check_len = if field.packet_length.is_some() {
-            format!(
-                "let len = {packet_length};
-                                             assert!(vals.len() <= len);",
-                packet_length = field.packet_length.as_ref().unwrap()
-            )
-        } else {
-            String::new()
-        };
 
         let copy_vals = if inner_ty_str == "u8" {
             // Efficient copy_from_slice (memcpy)
@@ -1100,7 +1091,7 @@ fn handle_vec_primitive(
             mutators = mutators,
             name = field.name,
             co = co,
-            check_len = check_len,
+            check_len = String::new(),
             inner_ty_str = inner_ty_str,
             copy_vals = copy_vals
         );

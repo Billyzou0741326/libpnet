@@ -15,8 +15,8 @@ use self::netmap_sys::netmap_user::{
     nm_close, nm_desc, nm_nextpkt, nm_open, nm_pkthdr, nm_ring_next, NETMAP_BUF, NETMAP_FD,
     NETMAP_TXRING,
 };
-use Channel::Ethernet;
 use crate::{DataLinkReceiver, DataLinkSender, NetworkInterface};
+use Channel::Ethernet;
 
 use std::ffi::CString;
 use std::fs::File;
@@ -72,11 +72,9 @@ impl NmDesc {
         if desc.is_null() {
             Err(io::Error::last_os_error())
         } else {
-            let mut f = try!(File::open(&Path::new(
-                "/sys/module/netmap/parameters/buf_size"
-            )));
+            let mut f = File::open(&Path::new("/sys/module/netmap/parameters/buf_size"))?;
             let mut num_str = String::new();
-            try!(f.read_to_string(&mut num_str));
+            f.read_to_string(&mut num_str)?;
             let buf_size = num_str.trim_right().parse().unwrap();
 
             Ok(NmDesc {

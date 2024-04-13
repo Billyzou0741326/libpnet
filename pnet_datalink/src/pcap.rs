@@ -3,6 +3,7 @@
 
 use std::io;
 use std::marker::{Send, Sync};
+use std::net::IpAddr;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
@@ -10,7 +11,7 @@ use std::time::Duration;
 use pcap::{Activated, Active};
 
 use crate::Channel::Ethernet;
-use crate::{DataLinkReceiver, DataLinkSender, NetworkInterface};
+use crate::{DataLinkReceiver, DataLinkSender, InterfaceType, IpNetwork, NetworkInterface};
 
 /// Configuration for the pcap datalink backend.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -190,8 +191,31 @@ pub fn interfaces() -> Vec<NetworkInterface> {
                 description: dev.desc.clone().unwrap_or_else(|| "".to_string()),
                 index: i as u32,
                 mac: None,
-                ips: Vec::new(),
-                flags: 0,
+                ips: dev
+                    .addresses
+                    .iter()
+                    .map(|addr| {
+                        IpNetwork::new(
+                            addr.addr,
+                            addr.netmask
+                                .and_then(|mask| {
+                                    ipnetwork::ip_mask_to_prefix(mask).map_or(None, |v| Some(v))
+                                })
+                                .unwrap_or_else(|| match addr.addr {
+                                    IpAddr::V4(_) => 32,
+                                    IpAddr::V6(_) => 128,
+                                }),
+                        )
+                        .unwrap()
+                    })
+                    .collect(),
+                flags: (match dev.flags.is_up() {
+                    true => pnet_sys::IFF_UP as InterfaceType,
+                    false => 0,
+                }) | (match dev.flags.is_loopback() {
+                    true => pnet_sys::IFF_LOOPBACK as InterfaceType,
+                    false => 0,
+                }),
             })
             .collect()
     } else {

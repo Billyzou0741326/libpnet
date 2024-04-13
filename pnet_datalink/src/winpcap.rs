@@ -242,7 +242,7 @@ impl DataLinkReceiver for DataLinkReceiverImpl {
                 0 => return Err(io::Error::last_os_error()),
                 _ => unsafe { (*self.packet.packet).ulBytesReceived as isize },
             };
-            let mut ptr = unsafe { (*self.packet.packet).Buffer  as *mut c_char};
+            let mut ptr = unsafe { (*self.packet.packet).Buffer as *mut c_char };
             let end = unsafe { ((*self.packet.packet).Buffer as *mut c_char).offset(buflen) };
             while ptr < end {
                 unsafe {

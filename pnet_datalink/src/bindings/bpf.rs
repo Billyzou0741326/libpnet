@@ -136,7 +136,10 @@ pub struct timeval32 {
 
 #[cfg(any(
     target_os = "openbsd",
-    all(any(target_os = "macos", target_os = "ios"), target_pointer_width = "64")
+    all(
+        any(target_os = "macos", target_os = "ios"),
+        target_pointer_width = "64"
+    )
 ))]
 #[repr(C)]
 pub struct bpf_hdr {

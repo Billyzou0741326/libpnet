@@ -83,13 +83,7 @@ pub fn channel(network_interface: &NetworkInterface, config: Config) -> io::Resu
     ))]
     fn get_fd(_attempts: usize) -> libc::c_int {
         let c_file_name = CString::new(&b"/dev/bpf"[..]).unwrap();
-        unsafe {
-            libc::open(
-                c_file_name.as_ptr(),
-                libc::O_RDWR,
-                0,
-            )
-        }
+        unsafe { libc::open(c_file_name.as_ptr(), libc::O_RDWR, 0) }
     }
 
     #[cfg(any(target_os = "openbsd", target_os = "macos", target_os = "ios"))]
@@ -98,11 +92,7 @@ pub fn channel(network_interface: &NetworkInterface, config: Config) -> io::Resu
             let fd = unsafe {
                 let file_name = format!("/dev/bpf{}", i);
                 let c_file_name = CString::new(file_name.as_bytes()).unwrap();
-                libc::open(
-                    c_file_name.as_ptr(),
-                    libc::O_RDWR,
-                    0,
-                )
+                libc::open(c_file_name.as_ptr(), libc::O_RDWR, 0)
             };
             if fd != -1 {
                 return fd;

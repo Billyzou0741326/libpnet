@@ -28,6 +28,7 @@ serde = { version = "1.0.171", optional = true, default-features = false, featur
 
 [target.'cfg(windows)'.dependencies]
 winapi = "0.3.9"
+windows-sys = { version = "0.52.0", features = ["Win32_NetworkManagement_Ndis", "Win32_Networking_WinSock"] }
 
 [package.metadata.docs.rs]
 # Enable the serde feature when generating docs on docs.rs, so the traits are visible

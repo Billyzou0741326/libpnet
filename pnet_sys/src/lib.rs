@@ -157,6 +157,7 @@ fn ntohs(u: u16) -> u16 {
 }
 
 #[cfg(test)]
+#[cfg(unix)]
 mod tests {
     use crate::get_socket_receive_timeout;
     use crate::recv_from;

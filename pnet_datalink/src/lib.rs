@@ -30,58 +30,6 @@ pub use pnet_base::{MacAddr, ParseMacAddrErr};
 
 mod bindings;
 
-#[cfg(windows)]
-#[path = "winpcap.rs"]
-mod backend;
-
-#[cfg(windows)]
-pub mod winpcap;
-
-#[cfg(all(
-    not(feature = "netmap"),
-    any(target_os = "linux", target_os = "android")
-))]
-#[path = "linux.rs"]
-mod backend;
-
-#[cfg(any(target_os = "linux", target_os = "android"))]
-pub mod linux;
-
-#[cfg(all(
-    not(feature = "netmap"),
-    any(
-        target_os = "freebsd",
-        target_os = "openbsd",
-        target_os = "netbsd",
-        target_os = "illumos",
-        target_os = "solaris",
-        target_os = "macos",
-        target_os = "ios"
-    )
-))]
-#[path = "bpf.rs"]
-mod backend;
-
-#[cfg(any(
-    target_os = "freebsd",
-    target_os = "netbsd",
-    target_os = "illumos",
-    target_os = "solaris",
-    target_os = "macos",
-    target_os = "ios"
-))]
-pub mod bpf;
-
-#[cfg(feature = "netmap")]
-#[path = "netmap.rs"]
-mod backend;
-
-#[cfg(feature = "netmap")]
-pub mod netmap;
-
-#[cfg(feature = "pcap")]
-pub mod pcap;
-
 pub mod dummy;
 
 /// Type alias for an `EtherType`.
@@ -169,22 +117,6 @@ impl Default for Config {
             promiscuous: true,
         }
     }
-}
-
-/// Create a new datalink channel for sending and receiving data.
-///
-/// This allows for sending and receiving packets at the data link layer.
-///
-/// A list of network interfaces can be retrieved using datalink::interfaces().
-///
-/// The configuration serves as a hint to the backend - some or all of it may be used or ignored,
-/// depending on which backend is used.
-///
-/// When matching on the returned channel, make sure to include a catch-all so that code doesn't
-/// break when new channel types are added.
-#[inline]
-pub fn channel(network_interface: &NetworkInterface, configuration: Config) -> io::Result<Channel> {
-    backend::channel(network_interface, (&configuration).into())
 }
 
 /// Trait to enable sending `$packet` packets.
@@ -378,33 +310,4 @@ impl ::std::fmt::Display for NetworkInterface {
             self.name, flags, self.index, mac, ips
         )
     }
-}
-
-/// Get a list of available network interfaces for the current machine.
-///
-/// If you need the default network interface, you can choose the first
-/// one that is up, not loopback and has an IP. This is not guaranteed to
-/// work on each system but should work for basic packet sniffing:
-///
-/// ```
-/// use pnet_datalink::interfaces;
-///
-/// // Get a vector with all network interfaces found
-/// let all_interfaces = interfaces();
-///
-/// // Search for the default interface - the one that is
-/// // up, not loopback and has an IP.
-/// let default_interface = all_interfaces
-///     .iter()
-///     .find(|e| e.is_up() && !e.is_loopback() && !e.ips.is_empty());
-///
-/// match default_interface {
-///     Some(interface) => println!("Found default interface with [{}].", interface.name),
-///     None => println!("Error while finding the default interface."),
-/// }
-///
-/// ```
-///
-pub fn interfaces() -> Vec<NetworkInterface> {
-    backend::interfaces()
 }

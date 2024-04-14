@@ -8,8 +8,8 @@
 
 //! ARP packet abstraction.
 
-use crate::PrimitiveValues;
 use crate::ethernet::EtherType;
+use crate::PrimitiveValues;
 
 use alloc::vec::Vec;
 

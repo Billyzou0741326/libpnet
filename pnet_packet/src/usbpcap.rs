@@ -3,8 +3,8 @@
 use alloc::vec::Vec;
 
 use pnet_macros::Packet;
-use pnet_macros_support::types::{u1, u3, u4, u7, u16le, u32le, u64le};
 use pnet_macros_support::packet::PrimitiveValues;
+use pnet_macros_support::types::{u1, u16le, u3, u32le, u4, u64le, u7};
 
 /// Represents a USB PCAP function for the requested operation.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -127,12 +127,12 @@ mod tests {
             40, 0, // Function
             1, // Info octet
             60, 0, // Bus
-            70, 0, // Device
+            70, 0,   // Device
             142, // Endpoint fields
-            80, // Transfer field
+            80,  // Transfer field
             2, 0, 0, 0, // Data length field
             // No header payload
-            90, 100 // Payload
+            90, 100, // Payload
         ];
 
         assert_eq!(&ref_packet[..], &packet[0..29]);
@@ -164,7 +164,7 @@ mod tests {
             0, // Transfer field
             0, 0, 0, 0, // Data length field
             110, // Header payload
-            // No payload
+               // No payload
         ];
 
         assert_eq!(&ref_packet[..], &packet[0..28]);

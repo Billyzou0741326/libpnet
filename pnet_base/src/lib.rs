@@ -7,7 +7,6 @@
 // except according to those terms.
 
 #![deny(warnings)]
-
 #![cfg_attr(all(not(test), not(feature = "std")), no_std)]
 
 #[cfg(feature = "serde")]

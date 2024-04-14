@@ -47,9 +47,11 @@ fn ethernet_header_test() {
         assert_eq!(ethernet_header.get_ethertype(), EtherTypes::Ipv6);
     }
 
-    let ref_packet = [0xde, 0xf0, 0x12, 0x34, 0x45, 0x67, /* destination */
-                      0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, /* source */
-                      0x86, 0xdd /* ethertype */];
+    let ref_packet = [
+        0xde, 0xf0, 0x12, 0x34, 0x45, 0x67, /* destination */
+        0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, /* source */
+        0x86, 0xdd, /* ethertype */
+    ];
     assert_eq!(&ref_packet[..], &packet[..]);
 }
 
@@ -75,7 +77,7 @@ pub mod EtherTypes {
     /// DECnet Phase IV.
     pub const DECnet: EtherType = EtherType(0x6003);
     /// Reverse Address Resolution Protocol (RARP) \[RFC903\].
-    pub const Rarp: EtherType = EtherType(0x8035); 
+    pub const Rarp: EtherType = EtherType(0x8035);
     /// AppleTalk - EtherTalk \[Apple\].
     pub const AppleTalk: EtherType = EtherType(0x809B);
     /// AppleTalk Address Resolution Protocol (AARP) \[Apple\].
@@ -132,34 +134,36 @@ impl PrimitiveValues for EtherType {
 
 impl fmt::Display for EtherType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f,
-               "{}",
-               match self {
-                   &EtherTypes::Ipv4 => "Ipv4", //(0x0800)
-                   &EtherTypes::Arp => "Arp", //(0x0806)
-                   &EtherTypes::WakeOnLan => "WakeOnLan", //(0x0842)
-                   &EtherTypes::Trill => "Trill", //(0x22F3)
-                   &EtherTypes::DECnet => "DECnet", //(0x6003)
-                   &EtherTypes::Rarp => "Rarp", //(0x8035)
-                   &EtherTypes::AppleTalk => "AppleTalk", //(0x809B)
-                   &EtherTypes::Aarp => "Aarp", //(0x80F3)
-                   &EtherTypes::Ipx => "Ipx", //(0x8137)
-                   &EtherTypes::Qnx => "Qnx", //(0x8204)
-                   &EtherTypes::Ipv6 => "Ipv6", //(0x86DD)
-                   &EtherTypes::FlowControl => "FlowControl", //(0x8808)
-                   &EtherTypes::CobraNet => "CobraNet", //(0x8819)
-                   &EtherTypes::Mpls => "Mpls", //(0x8847)
-                   &EtherTypes::MplsMcast => "MplsMcast", //(0x8848)
-                   &EtherTypes::PppoeDiscovery => "PppoeDiscovery", //(0x8863)
-                   &EtherTypes::PppoeSession => "PppoeSession", //(0x8864)
-                   &EtherTypes::Vlan => "Vlan", //(0x8100)
-                   &EtherTypes::PBridge => "PBridge", //(0x88a8)
-                   &EtherTypes::Lldp => "Lldp", //(0x88cc)
-                   &EtherTypes::Ptp => "Ptp", //(0x88f7)
-                   &EtherTypes::Cfm => "Cfm", //(0x8902)
-                   &EtherTypes::QinQ => "QinQ", //(0x9100)
-                   _ => "unknown",
-               })
+        write!(
+            f,
+            "{}",
+            match self {
+                &EtherTypes::Ipv4 => "Ipv4",                     //(0x0800)
+                &EtherTypes::Arp => "Arp",                       //(0x0806)
+                &EtherTypes::WakeOnLan => "WakeOnLan",           //(0x0842)
+                &EtherTypes::Trill => "Trill",                   //(0x22F3)
+                &EtherTypes::DECnet => "DECnet",                 //(0x6003)
+                &EtherTypes::Rarp => "Rarp",                     //(0x8035)
+                &EtherTypes::AppleTalk => "AppleTalk",           //(0x809B)
+                &EtherTypes::Aarp => "Aarp",                     //(0x80F3)
+                &EtherTypes::Ipx => "Ipx",                       //(0x8137)
+                &EtherTypes::Qnx => "Qnx",                       //(0x8204)
+                &EtherTypes::Ipv6 => "Ipv6",                     //(0x86DD)
+                &EtherTypes::FlowControl => "FlowControl",       //(0x8808)
+                &EtherTypes::CobraNet => "CobraNet",             //(0x8819)
+                &EtherTypes::Mpls => "Mpls",                     //(0x8847)
+                &EtherTypes::MplsMcast => "MplsMcast",           //(0x8848)
+                &EtherTypes::PppoeDiscovery => "PppoeDiscovery", //(0x8863)
+                &EtherTypes::PppoeSession => "PppoeSession",     //(0x8864)
+                &EtherTypes::Vlan => "Vlan",                     //(0x8100)
+                &EtherTypes::PBridge => "PBridge",               //(0x88a8)
+                &EtherTypes::Lldp => "Lldp",                     //(0x88cc)
+                &EtherTypes::Ptp => "Ptp",                       //(0x88f7)
+                &EtherTypes::Cfm => "Cfm",                       //(0x8902)
+                &EtherTypes::QinQ => "QinQ",                     //(0x9100)
+                _ => "unknown",
+            }
+        )
     }
 }
 
@@ -174,4 +178,3 @@ fn ether_type_to_str() {
     let unknown = EtherType(0x0666);
     assert_eq!(format!("{}", unknown), "unknown");
 }
-

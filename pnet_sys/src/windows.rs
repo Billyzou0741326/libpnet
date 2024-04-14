@@ -1,19 +1,19 @@
+use std::io;
 use winapi::ctypes;
 use winapi::shared::minwindef;
 use winapi::um::winsock2;
-use std::io;
 
 use super::{htons, ntohs};
 
 pub mod public {
 
-    use winapi::ctypes;
-    use winapi::shared::{in6addr, inaddr, ws2def, ws2ipdef};
-    use winapi::um::winsock2;
     use super::{htons, ntohs};
     use std::io;
     use std::mem;
     use std::net::{Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV4, SocketAddrV6};
+    use winapi::ctypes;
+    use winapi::shared::{in6addr, inaddr, ws2def, ws2ipdef};
+    use winapi::um::winsock2;
 
     pub type CSocket = winsock2::SOCKET;
     pub type Buf = *const ctypes::c_char;

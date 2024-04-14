@@ -1,7 +1,7 @@
 //! A VLAN packet abstraction.
 
-use crate::PrimitiveValues;
 use crate::ethernet::EtherType;
+use crate::PrimitiveValues;
 
 use alloc::vec::Vec;
 
@@ -73,8 +73,8 @@ pub struct Vlan {
 
 #[cfg(test)]
 mod tests {
-    use crate::ethernet::EtherTypes;
     use super::*;
+    use crate::ethernet::EtherTypes;
 
     #[test]
     fn vlan_packet_test() {
@@ -94,10 +94,12 @@ mod tests {
             assert_eq!(vlan_header.get_vlan_identifier(), 0x100);
         }
 
-        let ref_packet = [0x01,  // PCP, DEI, and first nibble of VID
-                          0x00,  // Remainder of VID
-                          0x08,  // First byte of ethertype
-                          0x00]; // Second byte of ethertype
+        let ref_packet = [
+            0x01, // PCP, DEI, and first nibble of VID
+            0x00, // Remainder of VID
+            0x08, // First byte of ethertype
+            0x00,
+        ]; // Second byte of ethertype
         assert_eq!(&ref_packet[..], &packet[..]);
     }
 }

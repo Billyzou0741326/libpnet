@@ -161,10 +161,10 @@ mod tests {
     use crate::get_socket_receive_timeout;
     use crate::recv_from;
     use crate::set_socket_receive_timeout;
-    use std::mem;
-    use std::time::{Duration, Instant};
     use crate::CSocket;
     use crate::SockAddrStorage;
+    use std::mem;
+    use std::time::{Duration, Instant};
 
     fn test_timeout(socket: CSocket) -> Duration {
         let mut buffer = [0u8; 1024];

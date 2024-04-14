@@ -382,9 +382,8 @@ pub fn operations(offset: usize, size: usize) -> Option<Vec<GetOperation>> {
         return None;
     }
 
-
     let start = offset / 8;
-    let end = (offset+size-1) / 8;
+    let end = (offset + size - 1) / 8;
     let num_bytes = (end - start) + 1;
 
     let mut current_offset = offset;

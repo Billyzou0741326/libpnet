@@ -267,44 +267,36 @@ fn ipv6_header_test() {
         );
     }
 
-    let ref_packet = [0x61,           /* ver/traffic class */
-                      0x11,           /* traffic class/flow label */
-                      0x01, 0x01,     /* flow label */
-                      0x01, 0x01,     /* payload length */
-                      0x00,           /* next header */
-                      0x01,           /* hop limit */
-                      /* source ip */
-                      0x01, 0x10, 0x10, 0x01,
-                      0x01, 0x10, 0x10, 0x01,
-                      0x01, 0x10, 0x10, 0x01,
-                      0x01, 0x10, 0x10, 0x01,
-                      /* dest ip */
-                      0x01, 0x10, 0x10, 0x01,
-                      0x01, 0x10, 0x10, 0x01,
-                      0x01, 0x10, 0x10, 0x01,
-                      0x01, 0x10, 0x10, 0x01,
-                      /* Hop-by-Hop Options */
-                      0x3c,             // Next Header
-                      0x01,             // Hdr Ext Len
-                      b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A',
-                      b'A', b'A', b'A', b'A', b'A', b'A',
-                      /* Destination Options */
-                      0x2b,             // Next Header
-                      0x01,             // Hdr Ext Len
-                      b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B',
-                      b'B', b'B', b'B', b'B', b'B', b'B',
-                      /* Routing */
-                      0x2c,             // Next Header
-                      0x01,             // Hdr Ext Len
-                      0x04,             // Routing Type
-                      0x02,             // Segments Left
-                      b'C', b'C', b'C', b'C', b'C', b'C', b'C', b'C',
-                      b'C', b'C', b'C', b'C',
-                      /* Fragment */
-                      0x11,                     // Next Header
-                      0x00,                     // Reserved
-                      0x04, 0x01,               // Fragment Offset
-                      0x00, 0x00, 0x04, 0xd2    // Identification
-                      ];
+    let ref_packet = [
+        0x61, /* ver/traffic class */
+        0x11, /* traffic class/flow label */
+        0x01, 0x01, /* flow label */
+        0x01, 0x01, /* payload length */
+        0x00, /* next header */
+        0x01, /* hop limit */
+        /* source ip */
+        0x01, 0x10, 0x10, 0x01, 0x01, 0x10, 0x10, 0x01, 0x01, 0x10, 0x10, 0x01, 0x01, 0x10, 0x10,
+        0x01, /* dest ip */
+        0x01, 0x10, 0x10, 0x01, 0x01, 0x10, 0x10, 0x01, 0x01, 0x10, 0x10, 0x01, 0x01, 0x10, 0x10,
+        0x01, /* Hop-by-Hop Options */
+        0x3c, // Next Header
+        0x01, // Hdr Ext Len
+        b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A', b'A',
+        /* Destination Options */
+        0x2b, // Next Header
+        0x01, // Hdr Ext Len
+        b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B', b'B',
+        /* Routing */
+        0x2c, // Next Header
+        0x01, // Hdr Ext Len
+        0x04, // Routing Type
+        0x02, // Segments Left
+        b'C', b'C', b'C', b'C', b'C', b'C', b'C', b'C', b'C', b'C', b'C', b'C',
+        /* Fragment */
+        0x11, // Next Header
+        0x00, // Reserved
+        0x04, 0x01, // Fragment Offset
+        0x00, 0x00, 0x04, 0xd2, // Identification
+    ];
     assert_eq!(&ref_packet[..], &packet[..ref_packet.len()]);
 }

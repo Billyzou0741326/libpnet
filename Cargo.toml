@@ -14,8 +14,7 @@ edition = "2021"
 
 [features]
 benchmark = []
-netmap = ["pnet_datalink/netmap_sys", "pnet_datalink/netmap"]
-pcap = ["pnet_datalink/pcap"]
+netmap = ["pnet_datalink/netmap"]
 appveyor = []
 travis = []
 serde = ["pnet_base/serde", "pnet_datalink?/serde"]
@@ -33,22 +32,6 @@ pnet_packet = { path = "pnet_packet", version = "0.34.0", default-features = fal
 
 [dev-dependencies]
 time = "0.3.23"
-
-[[example]]
-name = "arp_packet"
-required-features = ["std"]
-
-[[example]]
-name = "fanout"
-required-features = ["std"]
-
-[[example]]
-name = "list_interfaces"
-required-features = ["std"]
-
-[[example]]
-name = "packetdump"
-required-features = ["std"]
 
 [[example]]
 name = "transport_echo_server"

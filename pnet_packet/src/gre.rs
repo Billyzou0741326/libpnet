@@ -89,7 +89,6 @@ fn gre_routing_length(gre: &GrePacket) -> usize {
     }
 }
 
-
 /// `u16be`, but we can't use that directly in a `Vec` :(
 #[packet]
 pub struct U16BE {
@@ -117,10 +116,12 @@ fn gre_packet_test() {
         assert_eq!(gre_packet.payload().len(), 0);
     }
 
-    let ref_packet = [0x00 /* no flags */,
-                      0x00 /* no flags, version 0 */,
-                      0x08 /* protocol 0x0800 */,
-                      0x00];
+    let ref_packet = [
+        0x00, /* no flags */
+        0x00, /* no flags, version 0 */
+        0x08, /* protocol 0x0800 */
+        0x00,
+    ];
 
     assert_eq!(&ref_packet[..], &packet[..]);
 }
@@ -136,14 +137,14 @@ fn gre_checksum_test() {
         assert_eq!(gre_packet.get_offset().len(), 1);
     }
 
-    let ref_packet = [0x80 /* checksum on */,
-                      0x00 /* no flags, version 0 */,
-                      0x00 /* protocol 0x0000 */,
-                      0x00,
-                      0x00 /* 16 bits of checksum */,
-                      0x00,
-                      0x00 /* 16 bits of offset */,
-                      0x00];
+    let ref_packet = [
+        0x80, /* checksum on */
+        0x00, /* no flags, version 0 */
+        0x00, /* protocol 0x0000 */
+        0x00, 0x00, /* 16 bits of checksum */
+        0x00, 0x00, /* 16 bits of offset */
+        0x00,
+    ];
 
     assert_eq!(&ref_packet[..], &packet[..]);
 }

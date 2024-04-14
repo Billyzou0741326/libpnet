@@ -12,9 +12,9 @@ use crate::ip::IpNextHeaderProtocol;
 use pnet_macros_support::types::u16be;
 
 use core::convert::TryInto;
-use pnet_base::core_net::{Ipv4Addr, Ipv6Addr};
 use core::u16;
 use core::u8;
+use pnet_base::core_net::{Ipv4Addr, Ipv6Addr};
 
 /// Convert a value to a byte array.
 pub trait Octets {
@@ -183,8 +183,8 @@ fn sum_be_words(data: &[u8], skipword: usize) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::sum_be_words;
-    use core::slice;
     use alloc::{vec, vec::Vec};
+    use core::slice;
 
     #[test]
     fn sum_be_words_different_skipwords() {
